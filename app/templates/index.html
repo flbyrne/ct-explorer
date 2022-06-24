@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <!--meta property="og:image" content="static/img/thumbnail.jpg" /-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Stock Market Explorer: Clinical Trial and News">
+    <meta name="author" content="Flor Lozano-Byrne">
+    <meta property="og:type" content="Web App">
+    <meta property="og:title" content="Stock Market Explorer: Clinical Trial and News">
+    <meta property="og:description" content="This visualization tool allows investors to explore the effect of news and clinical trial outcomes on stock prices">
+
+     	<script src="https://cdn.jsdelivr.net/npm/vega@5.17.0"></script>
+ 	<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.17.0"></script>
+ 	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+ 	
+    <title>CT-Explorer</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  </head>
+
+       <body>
+    <!-- navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-1">
+          <span class="sr-only">Toggle navigation</span>
+          </button>
+          <span class="navbar-brand">CT-Explorer</span>
+        </div>
+
+        <div class="collapse navbar-collapse" id="nav-1">
+          <ul class="nav navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#About">About</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#DataSources">Data Sources</a>
+            </li>
+              
+            </ul> 
+        </div>
+      </div>
+    </nav>
+       
+       <div class="container">
+      <div class="row">   
+      <div class="col-lg-12 text-left">
+     <form id='input' method='post' action='/'><br><br><br>
+         <p class="text-center">This visualization tool allows exploration of news and clinical trial outcomes effects on stock prices. Click on the colored circles for clinical trial milestones, or the bottom circles for news.</p> 
+<br>
+      <div class="row">
+          <div class="group-col-container" align="center">
+
+          <select id="ticker" name="ticker" _value="{{ ticker }}">
+          <option value="ABBV">Select Ticker</option>
+            <option value="ABBV">AbbVie</option>
+            <option value="XLRN">Acceleron Pharma, Inc.</option>
+            <option value="ADXS">Advaxis, Inc.</option>
+            <option value="AGEN">Agenus Inc.</option>
+            <option value="AGIO">Agios Pharmaceuticals, Inc.</option>
+            <option value="AMGN">Amgen</option>
+            <option value="AVEO">AVEO Pharmaceuticals</option>
+            <option value="AZN">AstraZeneca</option>
+            <option value="BMY">Bristol-Myers Squibb</option>
+            <option value="CLVS">Clovis Oncology</option>
+            <option value="EXEL">Exelixis</option>
+            <option value="INCY">Incyte Corporation</option>
+            <option value="LLY">Eli Lilly and Company</option>
+            <option value="KPTI">Karyopharm Therapeutics, Inc.</option>
+            <option value="MOR">MorphoSys AG</option>
+            <option value="PFE">Pfizer</option>
+            <option value="SNY">Sanofi</option>
+            <option value="SPPI">Spectrum Pharmaceuticals</option>
+            <option value="RARE">Ultragenix Pharmaceutical Inc</option>
+            <option value="VSTM">Verastem Inc.</option>
+          </select>
+       
+
+          <input type="submit" id="submit-button" class="btn btn-primary" value="Change Ticker">
+ 
+      </div>
+     </form>
+     <br>
+     <div class="container">
+  <div class="row" >
+  <div class="col-sm-3" >
+     <form id='input' method='post' action='/'>
+          <p><input type="submit" class="btn btn-primary" name='start'  value="Start"  /> </p>
+          </form>
+     </div>
+    <div class="col-sm-3" align="left">
+     <form id='input' method='post' action='/'>
+          
+          <p><=== <input type="submit" class="btn btn-primary" name='deltaback'  value="100"  /> days</p>
+          </form>
+     </div>
+     <div class="col-sm-3" align="right">
+     <form id='input' method='post' action='/'>
+          <p><input type="submit" class="btn btn-primary" name='deltafwd'  value="100"  /> days ===></p>
+          </form>
+     </div>
+     <div class="col-sm-3" align="right">
+     <form id='input' method='post' action='/'>
+          <p><input type="submit" class="btn btn-primary" name='end'  value="End"  /> </p>
+          </form>
+     </div>
+  </div>
+      </div>   
+</div>
+      </div>
+      </div>
+ <div class="group-col-container" align="center">
+ <div id='chart'></div>
+ 
+ </div>       
+ 
+ 
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div align="center">
+<br>
+
+</div> 
+{{testvar}}   
+<section class="page-section" id="About">
+     <div class="container">
+        <div class="text-center"><br><br>
+            <h2 class="page-section-heading text-secondary d-inline-block mb-0">ABOUT</h2>
+        </div>
+        <div class="row">  
+       <div class="col-lg-12 text-left"><br><br>
+<p class="text-center">CT-Explorer is a version of MarketNewsViz. Both MarketNewsViz and CT-Explorer are owned by Flor Lozano-Byrne and protected by Copyright laws. CT-Explorer was created to support exploratory data analysis of the Blossom Clinical Trials dataset. All Blossom Research Capital researchers are authorized to use CT-Explorer. CT-Explorer uses Blossom Clinical Trials and News datasets, gathered by Aleem Hussain Amir and Mihn Truong. </p>
+
+
+        </div>
+    </div>
+     </div>
+</section>           
+
+
+
+<section class="page-section" id="DataSources">
+     <div class="container">
+        <div class="text-center"><br><br>
+            <h2 class="page-section-heading text-secondary d-inline-block mb-0">DATA SOURCES</h2>
+        </div>
+        <br><br>
+
+<p class="text-center"><a href="https://www.tiingo.com">End Of Day Historical Stock Prices Retrieved from Tiingo using REST API</a></p>
+<p class="text-center"><a href="https://www.benzinga.com">News from Benzinga</a></p>
+<p class="text-center"><a href="https://clinicaltrials.gov">ClinicalTrials.gov</a></p>
+    </div>  
+</section>
+           
+
+
+
+ <!--p class="text-center">Copyright&copy; 2021 Blossom Research Capital</p--> <br><br>
+ 
+ <script>
+      var spec = {{ chart | safe }};
+      vegaEmbed("#chart", spec);
+</script>
+ 
+     </body>
+</html>
+
